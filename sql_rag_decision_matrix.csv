@@ -1,0 +1,24 @@
+id,question,classification,reason,missing_context
+S01,How many complaints have status OPEN?,SQL,This is an exact count of database rows.,Current snapshot and meaning of OPEN.
+S02,How many complaints are unresolved?,SQL,SQL can count complaints whose status is not CLOSED.,Confirm that unresolved means status <> CLOSED and how NULL statuses are handled.
+S03,Which customers have filed multiple complaints?,SQL,SQL can group complaints by customer and count them.,Customer identifier and whether all complaint dates count.
+S04,What is the latest status recorded for each complaint?,SQL,SQL can sort status history by changed_at and history_id.,How to show complaints without status history.
+S05,"How many unresolved complaints are 0-7, 8-30, and 31+ days old?",SQL,SQL can calculate age from received_at and group the results.,As-of date; exclude future or missing received_at; boundary rules.
+S06,Which complaints were explicitly escalated by a reviewer?,SQL,SQL can find ESCALATED decisions through review_request and review_decision.,Distinguish ESCALATED decisions from UNDER_REVIEW complaint status.
+S07,Which fees have not been reversed?,SQL,SQL can filter fee.reversed_flag for an exact list.,Definition of 0/1 and when reversal records refresh.
+R01,What does the Fee Reversal Policy say about reviewing fees?,RAG,The answer comes from policy wording rather than a calculation.,Full current policy text and version.
+R02,What does the Fraud Investigation Policy require?,RAG,Document retrieval is best for explaining the stated fraud rules.,Full policy and any exceptions.
+R03,How quickly must the bank respond to customers?,RAG,The response deadline is defined in a policy document.,Applicable policy version and business-day definition.
+R04,What identity checks are required before changing an account?,RAG,The answer depends on the account-management policy.,Full identity-verification procedure and scope.
+R05,What audit records does the bank require?,RAG,This asks for instructions in the audit policy.,Full audit standard and record-retention rules.
+H01,Should the bank reverse the fee disputed in CMP001?,Hybrid,The decision needs the complaint and fee records plus fee and refund rules.,Proof that the fee is linked to CMP001; approval status; actual reversal confirmation.
+H02,Should the bank refund the transaction disputed in CMP003?,Hybrid,The transaction facts must be checked against the refund rules.,Proof of a duplicate debit and authorized refund approval.
+H03,How should the bank handle suspected fraud in CMP009?,Hybrid,The fraud case history must be combined with fraud-escalation policy.,Current fraud evidence and authorized security reviewer.
+H04,Did CMP002 meet the response deadline and what should happen next?,Hybrid,Dates from SQL must be checked against the policy definition of business days.,Holiday calendar; complete response history; as-of date.
+H05,Was the account reset connected to CMP004 handled correctly?,Hybrid,The complaint and audit evidence must be compared with identity-check rules.,Identity-verification record and actual account-change logs.
+T01,Create a service request for a verified customer.,API/tool,Creating a record requires a system write action rather than retrieval.,Verified customer identity; fields; allowed action; user permission.
+T02,Send an approved response to a customer.,API/tool,Sending a message requires an authorized communication tool.,"Correct recipient, final approved text, consent and send permission."
+T03,Update a complaint to IN_PROGRESS.,API/tool,Changing complaint status is a controlled system action.,"Complaint ID, allowed transition, staff permission and audit requirement."
+D01,Approve a refund for a disputed charge.,Human decision,A refund is a financial decision that needs authorized approval.,"Evidence, refund amount, manager and authority level."
+D02,Decide whether to freeze a customer account because of fraud.,Human decision,Account freezing has serious consequences and needs authorized judgment.,"Verified fraud evidence, legal or security rules and authorized reviewer."
+D03,Decide whether to reject a difficult customer complaint.,Human decision,Fairness and potentially disputed evidence require a responsible reviewer.,"Case evidence, policy exceptions and appeal or escalation process."
